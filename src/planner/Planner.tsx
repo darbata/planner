@@ -1,5 +1,6 @@
 import {Day} from "./Day.tsx";
 import {type ReactNode, useEffect, useState} from "react";
+import "./styles/planner.css"
 
 function addDays(date : Date, days :number) : Date {
     const result = new Date(date);
@@ -36,9 +37,18 @@ export function Planner() {
     return (
         <section>
             <div className={"planner__header"}>
-                <h2 className={"planner__header__month"}>{visibleDates[0].toLocaleString('default', {month: 'short'})}</h2>
-                <button onClick={() => setOffset(offset - 1)}>previous week</button>
-                <button onClick={() => setOffset(offset + 1)}>next week</button>
+                <div className={"planner__date"}>
+                    <h2 className={"planner__month"}>{visibleDates[0].toLocaleString('default', {month: 'short'})}</h2>
+                    <h2 className={"planner__year"}>{visibleDates[0].getFullYear()}</h2>
+                </div>
+                <div className={"planner__controls"}>
+                    <button className={"planner__button planner__button-prev"} onClick={() => setOffset(offset - 1)}>
+                        <img src="public/arrow_left.svg" alt="previous week"/>
+                    </button>
+                    <button className={"planner__button planner__button-next"} onClick={() => setOffset(offset + 1)}>
+                        <img src="public/arrow_right.svg" alt="next week"/>
+                    </button>
+                </div>
             </div>
             {visibleDates.map((date) : ReactNode =>
                 <Day key={date.toString()} date={date} />

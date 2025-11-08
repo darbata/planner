@@ -1,0 +1,9 @@
+.day__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.day__date {
+    display: flex;
+    gap: 4px;
+}
