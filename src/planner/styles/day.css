@@ -7,3 +7,8 @@
     display: flex;
     gap: 4px;
 }
+
+.day__task_list {
+    padding-left: 8px;
+    padding-right: 8px;
+}

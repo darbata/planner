@@ -16,7 +16,9 @@ export function Day({date} : props) {
                 <h4 className={"day__weekday"}>{date.toLocaleString('default', {weekday: 'short'})}</h4>
             </div>
             <hr/>
-            <TaskList />
+            <div className={"day__task_list"}>
+                <TaskList />
+            </div>
         </div>
     )
 }

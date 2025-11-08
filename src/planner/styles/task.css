@@ -1,0 +1,12 @@
+.task {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task__description--complete {
+    color: grey;
+}
+
+.task__checkbox {
+    cursor: pointer;
+}

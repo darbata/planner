@@ -1,10 +1,15 @@
 import {data} from "../services/firebase/data.ts";
+import {Task} from "./Task.tsx";
 
 export function TaskList() {
-    console.log(data[0])
+
     return <ul>
         {data.map((task) =>
-            <li>{task.description}</li>
+            <div>
+                <Task description={task.description} />
+                {/*<hr />*/}
+            </div>
         )}
+        {/*input*/}
     </ul>
 }

@@ -43,10 +43,10 @@ export function Planner() {
                 </div>
                 <div className={"planner__controls"}>
                     <button className={"planner__button planner__button-prev"} onClick={() => setOffset(offset - 1)}>
-                        <img src="public/arrow_left.svg" alt="previous week"/>
+                        <img src="/arrow_left.svg" alt="previous week"/>
                     </button>
                     <button className={"planner__button planner__button-next"} onClick={() => setOffset(offset + 1)}>
-                        <img src="public/arrow_right.svg" alt="next week"/>
+                        <img src="/arrow_right.svg" alt="next week"/>
                     </button>
                 </div>
             </div>
