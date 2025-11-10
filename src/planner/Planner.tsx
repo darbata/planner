@@ -10,7 +10,8 @@ function addDays(date : Date, days :number) : Date {
 
 export function Planner() {
     const [offset, setOffset] = useState<number>(0);
-    const [visibleDates, setVisibleDates] = useState<Date[]>([new Date]);
+
+    const [visibleDates, setVisibleDates] = useState<string[] | undefined>(undefined);
 
     useEffect(() => {
 
@@ -25,21 +26,24 @@ export function Planner() {
         timestamp.setDate(timestamp.getDate() - days_from_monday);
 
         // create a list of days in this week, starting from monday
-        const newVisibleDates : Date[] = []
+        const newVisibleDates : string[] = []
 
         for (let i = 0; i < 7; i++) {
-            newVisibleDates.push(addDays(timestamp, i));
+            // "Mon Nov 10 2025"
+            newVisibleDates.push(addDays(timestamp, i).toDateString());
         }
 
         setVisibleDates(newVisibleDates);
     }, [offset])
 
+    if (visibleDates === undefined) return <div>Loading...</div>
+
     return (
         <section>
             <div className={"planner__header"}>
                 <div className={"planner__date"}>
-                    <h2 className={"planner__month"}>{visibleDates[0].toLocaleString('default', {month: 'short'})}</h2>
-                    <h2 className={"planner__year"}>{visibleDates[0].getFullYear()}</h2>
+                    <h2 className={"planner__month"}>{visibleDates[0].split(' ')[1]}</h2>
+                    <h2 className={"planner__year"}>{visibleDates[0].split(' ')[3]}</h2>
                 </div>
                 <div className={"planner__controls"}>
                     <button className={"planner__button planner__button-prev"} onClick={() => setOffset(offset - 1)}>
@@ -50,10 +54,6 @@ export function Planner() {
                     </button>
                 </div>
             </div>
-            {visibleDates.map((date) : ReactNode =>
-                <Day key={date.toString()} date={date} />
-            )}
         </section>
     )
-
 }
