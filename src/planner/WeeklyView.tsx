@@ -32,7 +32,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
 
     console.log(tasks)
 
-    function findTaskDate(id) : string {
+    function findTaskDate(id) : string | undefined {
 
         for (const date in tasks) {
             const list = tasks[date];
@@ -64,8 +64,11 @@ export function WeeklyView({ dates }: { dates: string[] }) {
             const activeTask = prev[fromDate][activeTaskIndex];
 
             const newFromList = [...prev[fromDate]];
+
+            // delete task from old list
             newFromList.splice(activeTaskIndex, 1);
 
+            // add task to new list
             const newToList = [...prev[toDate], activeTask];
 
             return {
@@ -76,7 +79,6 @@ export function WeeklyView({ dates }: { dates: string[] }) {
         })
 
     }
-
 
     return (
         <DndContext onDragEnd={handleDragEnd} on>
