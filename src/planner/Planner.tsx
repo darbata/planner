@@ -1,6 +1,6 @@
-import {Day} from "./Day.tsx";
-import {type ReactNode, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import "./styles/planner.css"
+import {WeeklyView} from "./WeeklyView.tsx";
 
 function addDays(date : Date, days :number) : Date {
     const result = new Date(date);
@@ -54,6 +54,7 @@ export function Planner() {
                     </button>
                 </div>
             </div>
+            <WeeklyView dates={visibleDates}/>
         </section>
     )
 }

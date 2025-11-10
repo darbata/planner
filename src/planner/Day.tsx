@@ -1,23 +1,29 @@
 import './styles/day.css'
 import {TaskList} from "./TaskList.tsx";
+import type {taskModel} from "../services/firebase/taskModel.ts";
 
-type props = {
-    date: Date
-}
+export function Day({date, tasks} : {
+    date : string,
+    tasks: taskModel[]
+}) {
 
-export function Day({date} : props) {
+    if (tasks === undefined) {
+        return <div>Loading...</div>
+    }
+
+
     return (
         <div className={"day"}>
             <div className={"day__header"}>
                 <div className="day__date">
-                    <h3 className={"day__date"}>{date.getDate()}</h3>
-                    <h3 className={"day__month"}>{date.toLocaleString('default', {month: 'short'})}</h3>
+                    <h3 className={"day__date"}>{date.split(' ')[1]}</h3>
+                    <h3 className={"day__month"}>{date.split(' ')[2]}</h3>
                 </div>
-                <h4 className={"day__weekday"}>{date.toLocaleString('default', {weekday: 'short'})}</h4>
+                <h4 className={"day__weekday"}>{date.split(' ')[0]}</h4>
             </div>
             <hr/>
             <div className={"day__task_list"}>
-                <TaskList />
+                <TaskList date={date} tasks={tasks}/>
             </div>
         </div>
     )

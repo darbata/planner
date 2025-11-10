@@ -1,57 +1,31 @@
-import {data} from "../services/firebase/data.ts";
+import {useDroppable} from "@dnd-kit/core";
 import type {taskModel} from "../services/firebase/taskModel.ts";
-import {closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
-import {arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {restrictToParentElement, restrictToVerticalAxis} from "@dnd-kit/modifiers";
-import {useState} from "react";
-import {SortableItem} from "./components/SortableItem.tsx";
 import {Task} from "./Task.tsx";
 
-export function TaskList() {
-    const [tasks, setTasks] = useState<taskModel[]>(data);
+export function TaskList({date, tasks} : {
+    date: string,
+    tasks: taskModel[]
+}) {
 
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        })
-    );
-
-    function handleDragEnd(event: any) {
-        const { active, over } = event;
-
-        // not over anything
-        if (!over) return;
-
-        // same item
-        if (active.id === over.id) return;
-
-        const oldIndex = tasks.findIndex((t) => String(t.id) === String(active.id));
-        const newIndex = tasks.findIndex((t) => String(t.id) === String(over.id));
-
-        if (oldIndex === -1 || newIndex === -1) return;
-
-        // Use arrayMove to create a new array (does not mutate original)
-        setTasks((prev) => arrayMove(prev, oldIndex, newIndex));
-    }
+    const {setNodeRef} = useDroppable({
+        id: date
+    })
 
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-        >
-            <SortableContext
-                items={tasks.map(task => task.id)}
-                strategy={verticalListSortingStrategy}
-            >
-                {tasks.map(task =>
-                    <SortableItem key={task.id} id={task.id}>
-                        <Task description={task.description}></Task>
-                    </SortableItem>
-                )}
-            </SortableContext>
-        </DndContext>
+        <div ref={setNodeRef}>
+            <ul>
+                {tasks
+                    .sort((a, b) => a.order - b.order)
+                    .map(task =>
+                        <Task key={task.id}
+                              id={task.id}
+                              description={task.description}
+                              isComplete={task.isComplete}
+                        />
+                    )
+                }
+            </ul>
+        </div>
     )
+
 }
