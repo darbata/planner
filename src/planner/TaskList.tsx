@@ -6,7 +6,6 @@ import {restrictToParentElement, restrictToVerticalAxis} from "@dnd-kit/modifier
 import {useState} from "react";
 import {SortableItem} from "./components/SortableItem.tsx";
 import {Task} from "./Task.tsx";
-import type {DragEndEvent} from "@dnd-kit/core";
 
 export function TaskList() {
     const [tasks, setTasks] = useState<taskModel[]>(data);
@@ -18,7 +17,7 @@ export function TaskList() {
         })
     );
 
-    function handleDragEnd(event: DragEndEvent) {
+    function handleDragEnd(event: any) {
         const { active, over } = event;
 
         // not over anything
