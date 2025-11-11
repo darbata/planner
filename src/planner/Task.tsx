@@ -2,18 +2,15 @@ import './styles/task.css'
 import {useState} from "react";
 import {useDraggable} from "@dnd-kit/core";
 import * as React from "react";
+import type {taskModel} from "../services/firebase/taskModel.ts";
 
+export function Task({task} : {task: taskModel})  {
 
-
-export function Task({id, description, isComplete} : {
-    id: string,
-    description: string,
-    isComplete: boolean
-}) {
-    const [complete, setComplete] = useState(isComplete);
+    const [complete, setComplete] = useState(task.isComplete);
 
     const {listeners, setNodeRef, transform} = useDraggable({
-        id: id
+        id: task.id,
+        data: { task }
     })
 
     const style : React.CSSProperties = {
@@ -28,8 +25,8 @@ export function Task({id, description, isComplete} : {
         <button className={"task"} ref={setNodeRef} {...listeners} style={style}>
             <div className={`task__description ${complete ? "task__description--complete" : ""}`}>
                 {complete
-                    ? <p><s>{description}</s></p>
-                    : <p>{description}</p>
+                    ? <p><s>{task.description}</s></p>
+                    : <p>{task.description}</p>
                 }
             </div>
             <div onClick={() => setComplete(!complete)} className={"task__checkbox"}>

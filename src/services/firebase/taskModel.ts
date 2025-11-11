@@ -1,6 +1,7 @@
 export type taskModel = {
     id: string;
-    order: number;
+    date: string;
+    order: number; // order in day
     description: string;
     isComplete: boolean;
 }
