@@ -3,10 +3,17 @@ import {TaskList} from "./TaskList.tsx";
 import {NewTaskForm} from "./NewTaskForm.tsx";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 
-export function Day({date, tasks} : {
+export function Day({date, tasks, createTask} : {
     date: string,
-    tasks: taskModel[] | undefined;
+    tasks: taskModel[],
+    createTask: (date: string, order: number, taskDescription: string) => void;
 }) {
+
+
+    function dayCreateTask(taskDescription: string){
+        createTask(date, tasks.length + 1, taskDescription);
+        console.log(`Creating new task with order: ${tasks.length}`)
+    }
 
     return (
         <div className={"day"}>
@@ -19,7 +26,7 @@ export function Day({date, tasks} : {
             </div>
             <hr/>
             <TaskList date={date} tasks={tasks ? tasks : []} />
-            <NewTaskForm />
+            <NewTaskForm createTask={dayCreateTask} />
         </div>
     )
 }

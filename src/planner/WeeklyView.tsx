@@ -3,19 +3,19 @@ import {DndContext, type DragEndEvent} from "@dnd-kit/core";
 import {useReducer} from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 import {v4 as uuidv4} from "uuid";
+import {createNewTask} from "../services/createNewTask.ts";
 
 type ActionType =
     | { type: "ADD_TASK"; payload: { date: string; task: taskModel } }
     | { type: "REMOVE_TASK"; payload: { date: string; taskId: string } }
     | { type: "UPDATE_TASK"; payload: { date: string; task: taskModel } };
-
-function reducer(
+ function reducer(
     state: Record<string, taskModel[]>,
     action: ActionType
 ): Record<string, taskModel[]> {
     switch (action.type) {
-        case "ADD_TASK": {
-            const {date, task} = action.payload;
+        case "ADD_TASK": { const {date, task} = action.payload;
+            task.order = state[date].length + 1;
             return {
                 ...state,
                 [date]: state[date] ? [...state[date], task] : [task]
@@ -88,6 +88,12 @@ export function WeeklyView({ dates }: { dates: string[] }) {
         })
     }
 
+    function createTask(date: string, order: number, taskDescription: string) {
+        const newTask = createNewTask(date, taskDescription);
+        newTask.order = order;
+        addTask(date, newTask);
+    }
+
     // function updateTask(date: string, updatedTask: taskModel) {
     //     dispatch({
     //         type: "UPDATE_TASK",
@@ -119,7 +125,6 @@ export function WeeklyView({ dates }: { dates: string[] }) {
         // add to the new date
 
         addTask(newDate, task);
-
     }
 
     return (
@@ -129,6 +134,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
                     key={date}
                     date={date}
                     tasks={state[date]}
+                    createTask={createTask}
                 />
             ))}
         </DndContext>

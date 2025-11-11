@@ -1,23 +1,23 @@
 import {useState} from "react";
 
-export function NewTaskForm({addTask} : {
-    addTask?: (date: string, newTaskDescription: string) => void;
+export function NewTaskForm({createTask} : {
+    createTask: (taskDescription: string) => void;
 }) {
 
-    const [newTaskInput, setNewTaskInput] = useState<string>("");
+    const [newTaskDescription, setNewTaskDescription] = useState<string>("");
 
     function handleSubmit() {
-        // addTask(date, newTaskInput);
-        setNewTaskInput("");
+        createTask(newTaskDescription)
+        setNewTaskDescription("");
     }
 
     return (
         <form action={handleSubmit}>
             <input
                 type="text"
-                value={newTaskInput}
+                value={newTaskDescription}
                 onChange={(event) =>
-                    setNewTaskInput(event.target.value)
+                    setNewTaskDescription(event.target.value)
                 }
             />
             <button type={"submit"}>Submit</button>
