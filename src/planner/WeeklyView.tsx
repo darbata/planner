@@ -2,13 +2,14 @@ import {useEffect, useState} from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 import {Day} from "./Day.tsx";
 import {DndContext, type DragEndEvent} from "@dnd-kit/core";
+import {createNewTask} from "../services/createNewTask.ts";
+import {v4 as uuidv4} from 'uuid';
 
 // must fetch all the tasks given the list of dates to fetch for
 export function WeeklyView({ dates }: { dates: string[] }) {
     const [tasks, setTasks] = useState<Record<string, taskModel[]>>({});
 
     useEffect(() => {
-        let idCounter = 0;
         setTasks(() => {
             const newTasks: Record<string, taskModel[]> = {};
 
@@ -18,7 +19,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
                 // place in some sample tasks
                 for (let i = 1; i < 4; i++) {
                     newTasks[date].push({
-                        id: idCounter++,
+                        id: uuidv4(),
                         order: i,
                         description: `super cool and important task ${i}`,
                         isComplete: false
@@ -30,9 +31,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
         });
     }, [dates]);
 
-    console.log(tasks)
-
-    function findTaskDate(id) : string | undefined {
+    function findTaskDate(id : string) : string | undefined {
 
         for (const date in tasks) {
             const list = tasks[date];
@@ -54,7 +53,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
 
         const toDate = over.id;
 
-        const fromDate : string = findTaskDate(active.id);
+        const fromDate : string | undefined = findTaskDate(active.id.toString());
 
         if (!fromDate) return;
         if (fromDate == toDate) return;
@@ -77,13 +76,24 @@ export function WeeklyView({ dates }: { dates: string[] }) {
                 [toDate]: newToList,
             }
         })
+    }
+
+    function addTask(date : string, description : string) : void {
+
+        const newTask = createNewTask(description, tasks[date].length);
+
+        // add new task to the bottom of the list associated with the date
+        setTasks((prev) => ({
+            ...prev,
+            [date]: [...(prev[date] || []), newTask]
+        }))
 
     }
 
     return (
-        <DndContext onDragEnd={handleDragEnd} on>
+        <DndContext onDragEnd={handleDragEnd} >
             {dates.map((date) => (
-                <Day key={date} date={date} tasks={tasks[date]}/>
+                <Day key={date} date={date} tasks={tasks[date]} addTask={addTask}/>
             ))}
         </DndContext>
     );

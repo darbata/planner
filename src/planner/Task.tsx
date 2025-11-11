@@ -6,7 +6,7 @@ import * as React from "react";
 
 
 export function Task({id, description, isComplete} : {
-    id: number,
+    id: string,
     description: string,
     isComplete: boolean
 }) {

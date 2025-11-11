@@ -1,23 +1,16 @@
 import {useDroppable} from "@dnd-kit/core";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 import {Task} from "./Task.tsx";
-import {useState} from "react";
 
-export function TaskList({date, tasks, createNewTask} : {
+export function TaskList({date, tasks} : {
     date: string,
     tasks: taskModel[],
 }) {
 
-    const [newTaskInput, setNewTaskInput] = useState<string>("");
 
     const {setNodeRef} = useDroppable({
         id: date
     })
-
-    function handleSubmit() {
-        console.log(newTaskInput);
-        setNewTaskInput("");
-    }
 
     return (
         <div ref={setNodeRef}>
@@ -33,17 +26,7 @@ export function TaskList({date, tasks, createNewTask} : {
                     )
                 }
             </ul>
-            <form action={handleSubmit}>
-                <input
-                    type="text"
-                    value={newTaskInput}
-                    onChange={(event) =>
-                        setNewTaskInput(event.target.value)
-                    }
-                    onSubmit={handleSubmit}
-                />
-                <button type={"submit"}>Submit</button>
-            </form>
+
 
         </div>
     )
