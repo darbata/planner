@@ -9,11 +9,7 @@
     gap: 4px;
 }
 
-.day > hr {
-    height: 2px;
-    background-color: black;
-    border: none;
-}
+
 
 .day__weekday {
     text-align: left;
@@ -21,4 +17,17 @@
     color: darkgray;
 }
 
+.day__header--current {
+    color: blue;
+}
 
+
+.day__rule {
+    height: 2px;
+    background-color: black;
+    border: none;
+}
+
+.day__rule--current {
+    background-color: blue;
+}

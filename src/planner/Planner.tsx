@@ -12,13 +12,15 @@ function addDays(date : Date, days :number) : Date {
 
 export function Planner() {
     const [offset, setOffset] = useState<number>(0);
-
     const [visibleDates, setVisibleDates] = useState<string[] | undefined>(undefined);
+    const [currentDate, setCurrentDate] = useState<string>("");
 
     useEffect(() => {
 
         // Find Monday
         let timestamp = new Date();
+
+        setCurrentDate(timestamp.toDateString());
 
         // add the offset to the date
         timestamp = addDays(timestamp, 7 * offset);
@@ -56,7 +58,7 @@ export function Planner() {
                     </button>
                 </div>
             </div>
-            <WeeklyView dates={visibleDates}/>
+            <WeeklyView dates={visibleDates} currentDate={currentDate}/>
         </section>
     )
 }

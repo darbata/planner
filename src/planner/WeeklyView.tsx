@@ -10,7 +10,8 @@ type ActionType =
     | { type: "ADD_TASK"; payload: { date: string; task: taskModel } }
     | { type: "REMOVE_TASK"; payload: { date: string; taskId: string } }
     | { type: "UPDATE_TASK"; payload: { date: string; task: taskModel } };
- function reducer(
+
+function reducer(
     state: Record<string, taskModel[]>,
     action: ActionType
 ): Record<string, taskModel[]> {
@@ -43,8 +44,9 @@ type ActionType =
 }
 
 // must fetch all the tasks given the list of dates to fetch for
-export function WeeklyView({ dates }: { dates: string[] }) {
-
+export function WeeklyView({ dates, currentDate }: {
+    dates: string[], currentDate: string
+}) {
     const [state, dispatch] = useReducer(reducer, {
         "Mon Nov 10 2025": [
             {id: uuidv4(), date: dates[0], order: 1, description: "super cool and important task lol", isComplete: false},
@@ -151,6 +153,7 @@ export function WeeklyView({ dates }: { dates: string[] }) {
                         date={date}
                         tasks={state[date]}
                         createTask={createTask}
+                        isCurrentDate={currentDate === date}
                     />
                 ))}
             </div>
