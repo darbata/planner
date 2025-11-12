@@ -4,7 +4,6 @@
     background: none;
     border: none;
     width: 100%;
-
 }
 
 .task__description {
@@ -12,9 +11,14 @@
 }
 
 .task__description--complete {
-    color: grey;
+    color: darkgray;
 }
 
 .task__checkbox {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
+
+
+

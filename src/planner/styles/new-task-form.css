@@ -1,0 +1,11 @@
+.new-task-form__input {
+    appearance: none;
+    border: none;
+    outline: none; /* removes the blue glow */
+    box-shadow: none; /* some browsers use this for focus highlight */
+}
+
+.new-task-form__input:focus {
+    outline: none;
+    box-shadow: none;
+}

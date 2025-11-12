@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import "./styles/planner.css"
 import {WeeklyView} from "./WeeklyView.tsx";
+import {MdNavigateNext} from "react-icons/md";
+import {MdNavigateBefore} from "react-icons/md";
 
 function addDays(date : Date, days :number) : Date {
     const result = new Date(date);
@@ -47,10 +49,10 @@ export function Planner() {
                 </div>
                 <div className={"planner__controls"}>
                     <button className={"planner__button planner__button-prev"} onClick={() => setOffset(offset - 1)}>
-                        <img src="/arrow_left.svg" alt="previous week"/>
+                        <MdNavigateBefore size={24} />
                     </button>
                     <button className={"planner__button planner__button-next"} onClick={() => setOffset(offset + 1)}>
-                        <img src="/arrow_right.svg" alt="next week"/>
+                        <MdNavigateNext size={24} />
                     </button>
                 </div>
             </div>

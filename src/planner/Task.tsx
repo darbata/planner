@@ -3,6 +3,8 @@ import {useState} from "react";
 import {useDraggable} from "@dnd-kit/core";
 import * as React from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
+import {FaRegCircle} from "react-icons/fa";
+import {FaRegCheckCircle} from "react-icons/fa";
 
 export function Task({task} : {task: taskModel})  {
 
@@ -30,9 +32,10 @@ export function Task({task} : {task: taskModel})  {
                 }
             </div>
             <div onClick={() => setComplete(!complete)} className={"task__checkbox"}>
-                {complete ?
-                    <img src="/circle_check.svg" alt="completed item"/> :
-                    <img src="/circle_blank.svg" alt="incomplete item"/>
+                {complete
+                    ? <FaRegCheckCircle />
+                    : <FaRegCircle />
+
                 }
             </div>
         </button>

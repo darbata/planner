@@ -1,11 +1,24 @@
 .day__header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 16px;
 }
 
 .day__date {
     display: flex;
     gap: 4px;
+}
+
+.day > hr {
+    height: 2px;
+    background-color: black;
+    border: none;
+}
+
+.day__weekday {
+    text-align: left;
+    padding-right: 4px;
+    color: darkgray;
 }
 
 

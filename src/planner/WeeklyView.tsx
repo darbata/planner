@@ -4,6 +4,7 @@ import {useReducer} from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 import {v4 as uuidv4} from "uuid";
 import {createNewTask} from "../services/createNewTask.ts";
+import "./styles/weekly-view.css"
 
 type ActionType =
     | { type: "ADD_TASK"; payload: { date: string; task: taskModel } }
@@ -47,24 +48,38 @@ export function WeeklyView({ dates }: { dates: string[] }) {
     const [state, dispatch] = useReducer(reducer, {
         "Mon Nov 10 2025": [
             {id: uuidv4(), date: dates[0], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[0], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[0], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Tue Nov 11 2025": [
             {id: uuidv4(), date: dates[1], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[1], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[1], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Wed Nov 12 2025": [
             {id: uuidv4(), date: dates[2], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[2], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[2], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Thu Nov 13 2025": [
             {id: uuidv4(), date: dates[3], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[3], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[3], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Fri Nov 14 2025": [
             {id: uuidv4(), date: dates[4], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[4], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[4], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Sat Nov 15 2025": [
             {id: uuidv4(), date: dates[5], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[5], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[5], order: 3, description: "super cool and important task lol", isComplete: false},
         ],
         "Sun Nov 16 2025": [
-            {id: uuidv4(), date: dates[6], order: 1, description: "super cool and important task lol", isComplete: false}
+            {id: uuidv4(), date: dates[6], order: 1, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[6], order: 2, description: "super cool and important task lol", isComplete: false},
+            {id: uuidv4(), date: dates[6], order: 3, description: "super cool and important task lol", isComplete: false},
         ]
     })
 
@@ -128,15 +143,17 @@ export function WeeklyView({ dates }: { dates: string[] }) {
     }
 
     return (
-        <DndContext onDragEnd={handleDragEnd} >
-            {dates.map((date) => (
-                <Day
-                    key={date}
-                    date={date}
-                    tasks={state[date]}
-                    createTask={createTask}
-                />
-            ))}
+        <DndContext  onDragEnd={handleDragEnd} >
+            <div className={"weekly-view"}>
+                {dates.map((date) => (
+                    <Day
+                        key={date}
+                        date={date}
+                        tasks={state[date]}
+                        createTask={createTask}
+                    />
+                ))}
+            </div>
         </DndContext>
     );
 }

@@ -1,0 +1,19 @@
+.task_list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-list__entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+}
+
+.task_list__entries hr {
+    border: none;
+    height: 1px;
+    background-color: lightgray;
+}
