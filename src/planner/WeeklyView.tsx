@@ -1,5 +1,4 @@
 import {Day} from "./Day.tsx";
-import {DndContext, type DragEndEvent} from "@dnd-kit/core";
 import {useReducer} from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
 import {v4 as uuidv4} from "uuid";
@@ -95,6 +94,7 @@ export function WeeklyView({ dates, currentDate }: {
         })
     }
 
+/*
     function removeTask(date: string, taskId: string) {
         dispatch({
             type: "REMOVE_TASK",
@@ -104,6 +104,7 @@ export function WeeklyView({ dates, currentDate }: {
             }
         })
     }
+*/
 
     function createTask(date: string, order: number, taskDescription: string) {
         const newTask = createNewTask(date, taskDescription);
@@ -121,42 +122,18 @@ export function WeeklyView({ dates, currentDate }: {
     //     })
     // }
 
-    function handleDragEnd(event : DragEndEvent) {
-        console.log(event.active);
-        console.log(event.over);
-
-        if (!event || !event.active || !event.over) return;
-
-        const task : taskModel | undefined = event?.active?.data?.current?.task;
-
-        // have task in memory
-        if (task == undefined) return;
-
-        // delete from its old date
-        removeTask(task.date, task.id);
-
-        // updates its date
-        const newDate = event?.over?.data?.current?.date;
-
-        task.date = newDate;
-        // add to the new date
-
-        addTask(newDate, task);
-    }
 
     return (
-        <DndContext  onDragEnd={handleDragEnd} >
-            <div className={"weekly-view"}>
-                {dates.map((date) => (
-                    <Day
-                        key={date}
-                        date={date}
-                        tasks={state[date]}
-                        createTask={createTask}
-                        isCurrentDate={currentDate === date}
-                    />
-                ))}
-            </div>
-        </DndContext>
+        <div className={"weekly-view"}>
+            {dates.map((date) => (
+                <Day
+                    key={date}
+                    date={date}
+                    tasks={state[date]}
+                    createTask={createTask}
+                    isCurrentDate={currentDate === date}
+                />
+            ))}
+        </div>
     );
 }
