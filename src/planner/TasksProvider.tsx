@@ -26,7 +26,7 @@ export function TasksProvider({ children } : {
 }
 
 export type TaskAction =
-    | { type: "ADD_TASK"; payload: { date: string; task: taskModel } }
+    | { type: "APPEND_TASK"; payload: { newDate: string; task: taskModel } }
     | { type: "REMOVE_TASK"; payload: { date: string; taskId: string } }
     | { type: "UPDATE_TASK"; payload: { date: string; task: taskModel } }
     | { type: "CREATE_TASK"; payload: { date: string; newTaskDescription: string}}
@@ -36,12 +36,23 @@ function tasksReducer(
     action: TaskAction
 ): Record<string, taskModel[]> {
     switch (action.type) {
-        case "ADD_TASK": { const {date, task} = action.payload;
-            task.order = state[date].length + 1;
-            return {
-                ...state,
-                [date]: state[date] ? [...state[date], task] : [task]
-            };
+        case "APPEND_TASK": { const {newDate, task} = action.payload;
+            console.log(newDate);
+            const prevDate = task.date;
+
+            const newState = {...state};
+
+            if (prevDate && state[prevDate]) {
+                newState[prevDate] = state[prevDate].filter(t => t.id !== task.id);
+            }
+
+            task.date = newDate;
+
+            newState[newDate] = newState[newDate]
+                ? [...newState[newDate], { ...task, order: newState[newDate].length + 1 }]
+                : [{ ...task, order: 1 }];
+
+            return newState;
         }
         case "REMOVE_TASK": {
             const {date, taskId} = action.payload;

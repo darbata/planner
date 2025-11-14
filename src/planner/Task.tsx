@@ -1,33 +1,55 @@
 import './styles/task.css'
 import {useEffect, useRef, useState} from "react";
 import type {taskModel} from "../services/firebase/taskModel.ts";
-import {FaRegCircle} from "react-icons/fa";
-import {FaRegCheckCircle} from "react-icons/fa";
-import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import {FaRegCircle, FaRegCheckCircle} from "react-icons/fa";
+import {draggable, dropTargetForElements} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import {combine} from "@atlaskit/pragmatic-drag-and-drop/combine";
 
 export function Task({task} : {task: taskModel})  {
 
     const ref = useRef(null);
     const [dragging, setDragging] = useState<boolean>(false);
 
+
+
+
     useEffect(() => {
         const el = ref.current;
-        return draggable({
-            element: el,
-            getInitialData: () => ({task}),
-            onDragStart: () => setDragging(true),
-            onDrop: () => setDragging(false),
-        });
-    }, [])
+        if (!el) return;
+
+        // already returns clean up function
+        return combine(
+
+            draggable({
+                element: el,
+                getInitialData: () => ({task}),
+                onDragStart: () => setDragging(true),
+                onDrop: () => setDragging(false),
+            }),
+
+            dropTargetForElements({
+                element: el,
+                getData: () => ({task}),
+                onDrop: ({source, self, location}) => {
+                    console.log("source")
+                    console.log(source)
+                    console.log("self")
+                    console.log(self)
+                    console.log("location")
+                    console.log(location)
+                }
+            })
+        )
+
+    }, [task])
 
     const [complete, setComplete] = useState(task.isComplete);
 
     return (
         <div
-            className={`task ${dragging && "task--dragging"}`}
-            ref={ref}
+            className={`task `}
         >
-            <div className={`task__description ${complete ? "task__description--complete" : ""}`}>
+            <div ref={ref}  className={`${dragging && "task__description--dragging"} task__description ${complete ? "task__description--complete" : ""}`}>
                 {complete
                     ? <p><s>{task.description}</s></p>
                     : <p>{task.description}</p>
@@ -37,7 +59,6 @@ export function Task({task} : {task: taskModel})  {
                 {complete
                     ? <FaRegCheckCircle />
                     : <FaRegCircle />
-
                 }
             </div>
         </div>
