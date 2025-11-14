@@ -1,8 +1,9 @@
-.task_list {
+.task-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 
 .task-list__entry {
     display: flex;
@@ -16,4 +17,10 @@
     border: none;
     height: 1px;
     background-color: lightgray;
+}
+
+
+
+.task-list--dragged-over {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

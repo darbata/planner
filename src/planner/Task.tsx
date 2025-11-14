@@ -14,6 +14,7 @@ export function Task({task} : {task: taskModel})  {
         const el = ref.current;
         return draggable({
             element: el,
+            getInitialData: () => ({task}),
             onDragStart: () => setDragging(true),
             onDrop: () => setDragging(false),
         });

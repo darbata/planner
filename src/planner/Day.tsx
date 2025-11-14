@@ -1,13 +1,14 @@
 import './styles/day.css'
 import {TaskList} from "./TaskList.tsx";
-import type {taskModel} from "../services/firebase/taskModel.ts";
+import {useContext} from "react";
+import {TasksContext} from "./TasksProvider.tsx";
 
-export function Day({date, tasks, createTask, isCurrentDate} : {
+export function Day({date, isCurrentDate} : {
     date: string,
-    tasks: taskModel[],
-    createTask: (date: string, order: number, taskDescription: string) => void;
     isCurrentDate: boolean;
 }) {
+
+    const tasks = useContext(TasksContext);
 
     return (
         <div className={"day"}>
@@ -19,7 +20,7 @@ export function Day({date, tasks, createTask, isCurrentDate} : {
                 <h4 className={"day__weekday"}>{date.split(' ')[0]}</h4>
             </div>
             <hr className={`day__rule ${isCurrentDate ? "day__rule--current" : ""}`}/>
-            <TaskList date={date} tasks={tasks ? tasks : []} createTask={createTask} />
+            <TaskList date={date} tasks={tasks ? tasks[date] : []}/>
         </div>
     )
 }
