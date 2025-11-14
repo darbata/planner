@@ -20,5 +20,8 @@
     align-items: center;
 }
 
+.task--dragging {
+    opacity: 0.25;
+}
 
 
