@@ -1,10 +1,13 @@
 import axios from "axios";
 
 export async function createTask(userId : string, description : string, date : Date) {
+
+    const d : string = date.toLocaleDateString("en-CA"); // YYYY-MM-DD
+
     const newTask = {
         userId: userId,
         description: description,
-        date: date
+        date: d
     }
 
     const res = await axios.post("http://localhost:8080/api/tasks", newTask)

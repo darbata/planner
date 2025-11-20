@@ -1,16 +1,32 @@
 import {useState} from "react";
 import "./styles/new-task-form.css";
+import {createTask} from "../services/api/users.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export function NewTaskForm({date} : {date: Date}) {
-
-    console.log(date);
-
     const [newTaskDescription, setNewTaskDescription] = useState<string>("");
 
-    function handleSubmit(event : React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+    const queryClient = useQueryClient();
 
-        setNewTaskDescription("");
+    // Mutation
+    const createTaskMutation = useMutation({
+        mutationFn: ({ userId, description, date }: { userId: string, description: string, date: Date }) =>
+            createTask(userId, description, date),
+        onSuccess: () => {
+            // Invalidate tasks cache to refetch after creating a new task
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+            setNewTaskDescription("");
+        },
+    });
+
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        createTaskMutation.mutate({
+            userId: "691d62bbe76dee281445f40b",
+            description: newTaskDescription,
+            date: date,
+        });
     }
 
     return (
