@@ -11,16 +11,17 @@ function addDays(date : Date, days :number) : Date {
 }
 
 export function Planner() {
+
     const [offset, setOffset] = useState<number>(0);
-    const [visibleDates, setVisibleDates] = useState<string[] | undefined>(undefined);
-    const [currentDate, setCurrentDate] = useState<string>("");
+    const [visibleDates, setVisibleDates] = useState<Date[] | undefined>(undefined);
+    const [currentDate, setCurrentDate] = useState<Date | undefined>(undefined);
 
     useEffect(() => {
 
         // Find Monday
         let timestamp = new Date();
 
-        setCurrentDate(timestamp.toDateString());
+        setCurrentDate(timestamp);
 
         // add the offset to the date
         timestamp = addDays(timestamp, 7 * offset);
@@ -30,11 +31,11 @@ export function Planner() {
         timestamp.setDate(timestamp.getDate() - days_from_monday);
 
         // create a list of days in this week, starting from monday
-        const newVisibleDates : string[] = []
+        const newVisibleDates : Date[] = []
 
         for (let i = 0; i < 7; i++) {
             // "Mon Nov 10 2025"
-            newVisibleDates.push(addDays(timestamp, i).toDateString());
+            newVisibleDates.push(addDays(timestamp, i));
         }
 
         setVisibleDates(newVisibleDates);
@@ -46,8 +47,8 @@ export function Planner() {
         <section>
             <div className={"planner__header"}>
                 <div className={"planner__date"}>
-                    <h2 className={"planner__month"}>{visibleDates[0].split(' ')[1]}</h2>
-                    <h2 className={"planner__year"}>{visibleDates[0].split(' ')[3]}</h2>
+                    <h2 className={"planner__month"}>{visibleDates[0].getMonth()}</h2>
+                    <h2 className={"planner__year"}>{visibleDates[0].getFullYear()}</h2>
                 </div>
                 <div className={"planner__controls"}>
                     <button className={"planner__button planner__button-prev"} onClick={() => setOffset(offset - 1)}>

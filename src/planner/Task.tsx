@@ -1,6 +1,6 @@
 import './styles/task.css'
 import {useState} from "react";
-import type {taskModel} from "../services/firebase/taskModel.ts";
+import type {taskModel} from "../services/api/taskModel.ts";
 import {FaRegCircle, FaRegCheckCircle} from "react-icons/fa";
 
 export function Task({task} : {task: taskModel})  {

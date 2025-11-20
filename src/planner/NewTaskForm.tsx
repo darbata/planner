@@ -1,26 +1,15 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import "./styles/new-task-form.css";
-import {TasksDispatchContext} from "./TasksProvider.tsx";
 
-export function NewTaskForm({date} : {date: string}) {
+export function NewTaskForm({date} : {date: Date}) {
 
-    const dispatch = useContext(TasksDispatchContext);
+    console.log(date);
 
     const [newTaskDescription, setNewTaskDescription] = useState<string>("");
 
-
-
     function handleSubmit(event : React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        dispatch(
-            {
-                type: "CREATE_TASK",
-                payload: {
-                    date: date,
-                    newTaskDescription: newTaskDescription
-                }
-            }
-        )
+
         setNewTaskDescription("");
     }
 

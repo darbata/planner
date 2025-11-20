@@ -1,7 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import {createContext, type Dispatch, type ReactNode, useReducer} from "react";
-import type {taskModel} from "../services/firebase/taskModel.ts";
-import {createNewTask} from "../services/createNewTask.ts";
+import type {taskModel} from "../services/api/taskModel.ts";
 
 export const TasksContext = createContext<Record<string, taskModel[]>>({});
 export const TasksDispatchContext =
