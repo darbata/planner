@@ -8,7 +8,7 @@ export function NewTaskForm({date} : {date: Date}) {
 
     const queryClient = useQueryClient();
 
-    // Mutation
+    // todo: make use of useOptimistic for responsive UI :)
     const createTaskMutation = useMutation({
         mutationFn: ({ userId, description, date }: { userId: string, description: string, date: Date }) =>
             createTask(userId, description, date),

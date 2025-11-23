@@ -5,8 +5,16 @@ export function Day({date, isCurrentDate} : {
     date: Date,
     isCurrentDate: boolean;
 }) {
+
+    let length = 10;
+
+    const day = date.toLocaleDateString('default', {weekday: "short"}).toLowerCase()
+    if (day == "sat" || day == "sun") {
+        length = 4;
+    }
+
     return (
-        <div className={"day"}>
+        <div className={`day`}>
             <div className={`day__header ${isCurrentDate ? "day__header--current" : ""}` }>
                 <div className="day__date">
                     <h3 className={"day__date"}>{date.getDate()}</h3>
@@ -15,7 +23,7 @@ export function Day({date, isCurrentDate} : {
                 <h4 className={"day__weekday"}>{date.toLocaleString('default', {weekday: 'short'})}</h4>
             </div>
             <hr className={`day__rule ${isCurrentDate ? "day__rule--current" : ""}`}/>
-            <TaskList date={date}/>
+            <TaskList date={date} length={length}/>
         </div>
     )
 }

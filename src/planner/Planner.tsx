@@ -47,7 +47,7 @@ export function Planner() {
         <section>
             <div className={"planner__header"}>
                 <div className={"planner__date"}>
-                    <h2 className={"planner__month"}>{visibleDates[0].getMonth()}</h2>
+                    <h2 className={"planner__month"}>{visibleDates[0].toLocaleDateString("default", {month: "long"})}</h2>
                     <h2 className={"planner__year"}>{visibleDates[0].getFullYear()}</h2>
                 </div>
                 <div className={"planner__controls"}>

@@ -1,5 +1,25 @@
 .weekly-view {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
 }
+
+.day-container {
+    grid-row: 1 / span 2;
+}
+
+.day-container--sat {
+    grid-row: 1 / span 1;
+}
+.day-container--sun {
+    grid-row: 2 / span 1;
+}
+
+@media only screen and (max-width: 1300px) {
+    .weekly-view {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
